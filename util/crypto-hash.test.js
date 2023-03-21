@@ -3,7 +3,7 @@ const cryptoHash = require("./crypto-hash");
 describe("cryptoHash()", () => {
   it("generates a SHA-256 hashed output", () => {
     expect(cryptoHash("gangnam style")).toEqual(
-      "52a5fe701a2090b0ab9420bff0b0408b1b39734e4015880dab227b60d28bc7cc"
+      "580733095101856b71e69d6f8c01a9ab66a0bc1a6558060a9e5a6a0ac37f17a8"
     );
   });
 
@@ -11,5 +11,13 @@ describe("cryptoHash()", () => {
     expect(cryptoHash("one", "two", "three")).toEqual(
       cryptoHash("three", "one", "two")
     );
+  });
+
+  it("produces a unique hash when the properties have changed on an input", () => {
+    const foo = {};
+    const originalHash = cryptoHash(foo);
+    foo["a"] = "a";
+
+    expect(cryptoHash(foo)).not.toEqual(originalHash);
   });
 });
